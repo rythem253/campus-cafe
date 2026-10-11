@@ -7,12 +7,12 @@
  - Choose a warm café theme
 */
 :root {
-    --bg: ;
-    --panel: ;
-    --text: ;
-    --muted: ;
-    --border: ;
-    --accent: ;
+    --bg: #e6d58c;
+    --panel: #dc8c0b;
+    --text: black;
+    --muted: #001477;
+    --border: #8e9a95;
+    --accent: #3a496e;
     --radius: 16px;
 }
 
@@ -79,6 +79,14 @@ a {
 */
 .menu-flex {
     /* add properties here */
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 600px) {
+    .menu-flex {
+        flex-direction: row;
+    }    
 }
 
 article {
@@ -161,7 +169,13 @@ button {
  - Receipt must not break
 */
 @media (min-width: 768px) {
-    /* add properties here */
+    .container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .nav, .content, .ads, .footer{
+        grid-column: auto;
+    }
 }
 
 /* TODO (CSS #4): Laptop Mode
@@ -171,7 +185,15 @@ button {
  - Cannot be exactly the same as tablet mode. At least 1 grid item property must be different
 */
 @media (min-width: 992px) {
-    /* add properties here */
+    .container {
+        grid-template-columns: 1fr 1fr;
+    }
+    .nav, .content {
+        grid-column: auto;
+    }
+    .ads, .footer {
+        grid-column: 1 / -1;
+    }
 }
 
 /* TODO (CSS #5): Desktop Mode
@@ -180,5 +202,20 @@ button {
  - Receipt must not break
 */
 @media (min-width: 1200px) {
-    /* add properties here */
+    .container {
+        grid-template-columns: 1fr 1fr 1fr
+    }
+
+    .menu-flex {
+        flex-direction: row;
+    }
+
+    .content {
+        grid-column: span 2;
+    }
+
+
+    .ads, .footer, .sidebar {
+        grid-column: auto;
+    }
 }
