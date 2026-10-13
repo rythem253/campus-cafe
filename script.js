@@ -18,12 +18,31 @@ function money(n) {
 */
 function normalizeType(raw) {
     /* Add JS code here */
+    if (raw === null) {
+        return "";
+    }
+    const trimmed = raw.trim().toLowerCase();
+
+    return trimmed;
 }
 /* TODO (JS #2):
  - return true only for "coffee", "sandwich", "salad"
 */
 function isValidType(t) {
     /* Add JS code here */
+    if (t === "coffee") {
+        return true;
+    }
+
+    if (t ==="sandwich") {
+        return true;
+    }
+
+    if (t ==="salad") {
+        return true;
+    }
+    
+    return false;
 }
 /* TODO (JS #3):
  - use a for loop to repeat an icon up to 10 times
@@ -41,13 +60,35 @@ function iconsFor(type, qty) {
     // icons += icon;
     // }
     return icons;
-}
+}     
 /* TODO (JS #4):
  - Implement full math rules
  - unitPrice line is provided
 */
 function processQuote(type, qty, isStudent, reusableCup) {
+
     const unitPrice = PRICES[type];
+    const subtotal = unitPrice * qty;
+
+    let studentDiscount = 0;
+    if (isStudent) {
+        studentDiscount = subtotal * STUDENT_RATE;
+    }
+
+    let ecoFee = 0;
+    if (type==="coffee" && reusableCup === false) {
+        ecoFee = ECO_FEE;
+    }
+
+    let bulkDiscount = 0;
+    if (qty >= BULK_QTY) {
+        bulkDiscount = BULK_OFF;
+    }
+
+    const taxableAmount = subtotal - studentDiscount + ecoFee - bulkDiscount;
+    const tax = taxableAmount * TAX_RATE;
+    const total = taxableAmount + tax;
+
     // subtotal = unit price × quantity
     // studentDiscount = 10% (STUDENT_RATE) of subtotal if isStudent
     // ecoFee = ECO_FEE only if type is coffee AND reusableCup is false
@@ -55,8 +96,10 @@ function processQuote(type, qty, isStudent, reusableCup) {
     // taxableAmount = subtotal - studentDiscount + ecoFee - bulkDiscount
     // tax = 5% (TAX_RATE) of taxableAmount
     // total = taxableAmount + tax
+
     return { unitPrice, subtotal, studentDiscount, ecoFee, bulkDiscount, tax, total };
 };
+
 function buildReceipt(type, qty, isStudent, reusableCup, calc) {
     const icons = iconsFor(type, qty);
     const studentText = isStudent ? "Yes" : "No";
@@ -81,13 +124,15 @@ TOTAL: ${money(calc.total)}`;
  - Show a clear error in #receipt
 */
 function showError(msg) {
-    /* Add JS code here */
+    document.getElementById("receipt").textContent = msg;
 }
+
 /* TODO (JS #6):
  - Reset #receipt to "No order data."
 */
 function resetUI() {
     /* Add JS code here */
+    document.getElementById("receipt").textContent = "No order data."
 }
 
 async function loadWeather() {
@@ -123,10 +168,17 @@ function main() {
         - must be between 1 and 10
         - if invalid: showError(...) and stop
         */
+        if (qty < 1 || qty > 10 || !Number.isInteger(qty) ) {
+            showError("Invalid quantity");
+            return;
+        }
+
         /* TODO (JS #8):
         - Add a confirm() dialog here to ask for student discounts
         - Store the result in a variable named isStudent
         */
+        const isStudent = window.confirm("Are you a student ?");
+
         const reusableCup = (type === "coffee") ?
             confirm("Brought reusable cup(s)? (+$1.00 otherwise)") : true;
         const calc = processQuote(type, qty, isStudent, reusableCup);

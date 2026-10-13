@@ -191,7 +191,11 @@ button {
     .nav, .content {
         grid-column: auto;
     }
-    .ads, .footer {
+    .ads {
+        grid-column: 1 / -1;
+    }
+
+    .footer {
         grid-column: 1 / -1;
     }
 }
