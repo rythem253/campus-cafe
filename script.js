@@ -21,10 +21,12 @@ function normalizeType(raw) {
     if (raw === null) {
         return "";
     }
+
     const trimmed = raw.trim().toLowerCase();
 
     return trimmed;
 }
+
 /* TODO (JS #2):
  - return true only for "coffee", "sandwich", "salad"
 */
@@ -44,13 +46,14 @@ function isValidType(t) {
     
     return false;
 }
+
 /* TODO (JS #3):
  - use a for loop to repeat an icon up to 10 times
  - append the icons into the icons variable
  - should add a line break and an indentation after every 3 icons
 */
 function iconsFor(type, qty) {
-    const map = { coffee: " ", sandwich: " ", salad: " " };
+    const map = { coffee: "\u2615", sandwich: "\u{1F96A}", salad: "\u{1F957}" };
     const icon = map[type] || " ";
     const cap = Math.min(qty, 10);
     let icons = "";
@@ -59,6 +62,13 @@ function iconsFor(type, qty) {
     // ...
     // icons += icon;
     // }
+    for (let i = 1; i <= cap; i++) {
+        icons += icon;
+        if (i % 3 === 0) {
+            icons += "\n" + " ".repeat(16);
+        }
+    }
+
     return icons;
 }     
 /* TODO (JS #4):
@@ -106,19 +116,19 @@ function buildReceipt(type, qty, isStudent, reusableCup, calc) {
     const cupText = (type === "coffee") ? (reusableCup ? "Yes" : "No") : "N/A";
     return `CAMPUS CAFÉ RECEIPT
 ------------------------
-Item: ${type}
-Unit price: ${money(calc.unitPrice)}
-Quantity: ${qty}
- ${icons}
-Student disc.: ${studentText}
-Reusable cup: ${cupText}
-Subtotal: ${money(calc.subtotal)}
-Student -10%: -${money(calc.studentDiscount)}
-Eco cup fee: ${money(calc.ecoFee)}
-Bulk deal: -${money(calc.bulkDiscount)}
-Tax (5%): ${money(calc.tax)}
+Item:           ${type}
+Unit price:     ${money(calc.unitPrice)}
+Quantity:       ${qty}
+                ${icons}
+Student disc.:  ${studentText}
+Reusable cup:   ${cupText}
+Subtotal:       ${money(calc.subtotal)}
+Student -10%:  -${money(calc.studentDiscount)}
+Eco cup fee:    ${money(calc.ecoFee)}
+Bulk deal:     -${money(calc.bulkDiscount)}
+Tax (5%):       ${money(calc.tax)}
 ------------------------
-TOTAL: ${money(calc.total)}`;
+TOTAL:          ${money(calc.total)}`;
 }
 /* TODO (JS #5):
  - Show a clear error in #receipt
@@ -132,7 +142,7 @@ function showError(msg) {
 */
 function resetUI() {
     /* Add JS code here */
-    document.getElementById("receipt").textContent = "No order data."
+    document.getElementById("receipt").textContent = "No order data.";
 }
 
 async function loadWeather() {

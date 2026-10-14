@@ -10,9 +10,9 @@
     --bg: #e6d58c;
     --panel: #dc8c0b;
     --text: black;
-    --muted: #001477;
+    --muted: #532e0b;
     --border: #8e9a95;
-    --accent: #3a496e;
+    --accent: #4f2c0f;
     --radius: 16px;
 }
 
@@ -85,7 +85,7 @@ a {
 
 @media (max-width: 600px) {
     .menu-flex {
-        flex-direction: row;
+        flex-direction: column;
     }    
 }
 
@@ -169,11 +169,12 @@ button {
  - Receipt must not break
 */
 @media (min-width: 768px) {
+
     .container {
         grid-template-columns: 1fr 1fr;
     }
 
-    .nav, .content, .ads, .footer{
+    .nav, .content, .ads, .sidebar, .footer{
         grid-column: auto;
     }
 }
@@ -185,18 +186,17 @@ button {
  - Cannot be exactly the same as tablet mode. At least 1 grid item property must be different
 */
 @media (min-width: 992px) {
+
     .container {
-        grid-template-columns: 1fr 1fr;
-    }
-    .nav, .content {
-        grid-column: auto;
-    }
-    .ads {
-        grid-column: 1 / -1;
+        grid-template-columns: 1fr 1fr 1fr;
     }
 
-    .footer {
-        grid-column: 1 / -1;
+    .nav, .sidebar, .ads, .footer {
+        grid-column: auto;
+    }
+
+    .content {
+        grid-column: span 2;
     }
 }
 
@@ -206,8 +206,9 @@ button {
  - Receipt must not break
 */
 @media (min-width: 1200px) {
+
     .container {
-        grid-template-columns: 1fr 1fr 1fr
+        grid-template-columns: 1fr 1fr 1fr;
     }
 
     .menu-flex {
@@ -217,7 +218,6 @@ button {
     .content {
         grid-column: span 2;
     }
-
 
     .ads, .footer, .sidebar {
         grid-column: auto;
